@@ -1,0 +1,22 @@
+HOST:   http://private-5e0b-rikkertkoppes.apiary.io
+
+--- Sample API v2 ---
+---
+Welcome to our API. Comments support [Markdown](http://daringfireball.net/projects/markdown/syntax) syntax
+---
+
+-- Competitions --
+GET /competitions
+< 200
+< Content-Type: application/json
+{ "items": [
+  { "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
+] }
+
+-- post to competitions --
+POST /competitions
+> Content-Type: application/json
+{ "product":"1AB23ORM", "quantity": 2 }
+< 201
+< Content-Type: application/json
+{ "status": "created", "url": "/shopping-cart/2" }
