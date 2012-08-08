@@ -9,7 +9,6 @@ var express = require('express'),
 
 var server = express();
 server.use(express.logger('dev'));
-server.use(express.static(path.normalize(__dirname + '/webroot')));
 server.set('views', path.normalize(__dirname + '/views'));
 server.set('view engine', 'hbs');
 
