@@ -3,14 +3,7 @@ var express = require('express'),
     fs = require('fs'),
     hbs = require('hbs'),
     path = require('path'),
-    Parser = require('./parser');
-    // md = require("node-markdown").Markdown,
-    // hl = require('highlight').Highlight,
-
-var server = express();
-server.use(express.logger('dev'));
-server.set('views', path.normalize(__dirname + '/views'));
-server.set('view engine', 'hbs');
+    Parser = require('blueprint-parser');
 
 function layout(req,res,next) {
     // if (req.header('X-Requested-With')==='XMLHttpRequest') {
@@ -19,7 +12,13 @@ function layout(req,res,next) {
     next();
 }
 
-server.get('/', layout, function(req, res) {
+var server = express();
+server.use(express.logger('dev'));
+server.use(layout);
+server.set('views', path.normalize(__dirname + '/views'));
+server.set('view engine', 'hbs');
+
+server.get('/', function(req, res) {
     var str = fs.readFileSync('sample.blp','UTF8');
     var doc = Parser.parse(str);
     console.log(JSON.stringify(doc,null,'   '));

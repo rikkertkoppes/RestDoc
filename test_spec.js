@@ -1,6 +1,6 @@
 var fs = require('fs');
 var frisby = require('frisby');
-var Parser = require('./parser');
+var Parser = require('blueprint-parser');
 
 
 
@@ -8,24 +8,32 @@ function test(filename) {
     var str = fs.readFileSync(filename,'UTF8');
     var doc = Parser.parse(str);
 
-    // console.log(JSON.stringify(doc,null,'   '));
-
     doc.sections.forEach(function(s) {
-        testSection(s);
+        testSection(doc,s);
     });
-    
 }
 
-function testSection(s) {
-    var t = frisby.create(s.doc);
-    t[s.method.toLowerCase()](s.fullPath);
-    t.expectStatus(s.responseStatus);
-
-    s.response.forEach(function(header) {
-        t.expectHeaderContains(header.name.toLowerCase(), header.value);
+function testSection(doc,s) {
+    s.resources.forEach(function(r) {
+        testResource(doc,r);
     });
+}
 
-    t.expectJSON(s.responseJson);
+function testResource(doc,r) {
+    var t = frisby.create(r.description);
+    t[r.method.toLowerCase()](doc.location+r.url);
+    var header, headers = r.request.headers;
+    for (header in headers) {
+        t.addHeader(header, headers[header]);
+    }
+    var response = r.responses[0];
+    if (response) {
+        for (header in response.headers) {
+            t.expectHeaderContains(header.toLowerCase(), response.headers[header]);
+        }
+        t.expectJSON(JSON.parse(response.body));
+    }
+
     t.toss();
 }
 

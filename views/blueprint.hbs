@@ -21,21 +21,31 @@
     }
 </style>
 
-<h1>{{title}}</h1>
-<h2>{{host}}</h2>
+<h1>{{name}}</h1>
+<h2>{{location}}</h2>
 
 {{#each sections}}
 <div>
-    <h3>{{method}} {{path}}</h3>
-    <h4>Request</h4>
-    {{#each request}}
-        <p>{{name}}: {{value}}</p>
+    <h3>{{name}}</h3>
+    <p>{{description}}</p>
+    {{#each resources}}
+        <div>
+            <h3>{{method}} {{url}}</h3>
+            <p>{{description}}</p>
+            <h4>Request</h4>
+            {{#each request.headers}}
+                <p>{{this}}</p>
+            {{/each}}
+            <p>{{request.body}}</p>
+
+            {{#each responses}}
+                <h4>Response {{status}}</h4>
+                {{#each headers}}
+                    <p>{{this}}</p>
+                {{/each}}
+                <p>{{body}}</p>
+            {{/each}}
+        </div>
     {{/each}}
-    <p>{{requestText}}</p>
-    <h4>Response {{responseStatus}}</h4>
-    {{#each response}}
-        <p>{{name}}: {{value}}</p>
-    {{/each}}
-    <p>{{responseText}}</p>
 </div>
 {{/each}}
