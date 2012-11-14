@@ -3,7 +3,7 @@ Notes
 
 This all very priliminary, use at your own risk
 
-This package uses the apiary (blueprint parser)[https://github.com/apiaryio/blueprint-parser]
+This package uses the apiary [blueprint parser](https://github.com/apiaryio/blueprint-parser)
 
 This parser is a little rough to get going (at the moment, since the npm install does not work). On ubuntu do
 
